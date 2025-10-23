@@ -8,6 +8,15 @@ Hint - use Date class exposed in JS
 There is no automated test for this one, this is more for you to understand time goes up as computation goes up
 */
 
-function calculateTime(n) {
+function calculateTime() {
+    const start=Date.now();
+    for(let i=0;i<50000;i++){
+        for(let j=0;j<50000;i++){
+        j++;
+        }
+    }
+    const end=Date.now();
+    console.log((end-start)/1000);
     return 0.01;
 }
+calculateTime();

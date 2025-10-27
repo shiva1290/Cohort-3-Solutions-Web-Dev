@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+  font-family: 'Inter', sans-serif;
+  background-color: black;
+}
+      header{
+        display: flex;
+        justify-content: space-evenly;
+        color: white;
+        height: 30px;
+      }
+      .Icon img {
+        width: 24px;
+        padding-left: 5px;
+      }
+      .Icon {
+        padding-left: 50px;
+        font-size:1em ;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap:5px;
+        margin-right:5px;
+      }
+      .Nav{
+        display: flex;
+        gap:15px;
+        align-items: center;
+        color: rgb(194, 194, 194);
+        padding-right: 100px;
+        padding-left: 10px;
+      }
+      .Search{
+        display: flex;
+        gap: 5px;
+      }
+      .Search input{
+        all : unset;
+        border: 1px solid grey;
+        border-radius: 4px;
+        padding-left: 10px;
+        width: 140px;
+      }
+      .Search button {
+        all: unset;
+        background-color: #0078D4;
+        padding: 5px;
+        padding-left: 15px;
+        padding-right: 15px;
+        font-size: 16px;
+        border-radius: 3px;
+      }
+      .Version{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color:grey;
+        font-size: 14px;
+        margin: auto;
+        gap: 6px;
+      }
+      .Version #Blue{
+        color: #0078D4;
+      }
+    main {
+    background: linear-gradient(45deg, #000000, #2b2b2b);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  margin: auto;
+  color: white;
+  padding: 30px 30px;
+}
+
+.LeftSide {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-size: 1.2em;
+}
+
+.Right-side img {
+  width: 100%;
+  max-width: 800px;
+  padding-right: 100px;
+}
+      .Area {
+        background-color: black;
+        display: flex;
+        color: white;
+        width: 70%;
+        
+        justify-content: center;
+        margin: auto;
+      }
+      .Box{
+        border: grey solid 1px;
+        color: rgb(187, 187, 187);
+        padding: 5px;
+        width: 300px;
+        border-radius: 20px;
+        font-size: 14px;
+        text-align: center;
+        background: none;
+      }
+      .LeftSide{
+        padding-left: 140px;
+      }
+      .LeftSide .title{
+        font-size: 40px;
+        font-weight: 900;
+      }
+      .LeftSide button{
+        all: unset;
+        background-color: #0078D4;
+        padding: 15px;
+        padding-left: 25px;
+        padding-right: 25px;
+        font-size: 18px;
+        border-radius: 10px;
+      }
+      .Left {
+        width: 50%;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      .languagePanel{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);  
+        column-gap: 8em;
+        row-gap: 0.8em;
+        align-content: start;
+        padding-right: 10px;
+        padding-top:10px;
+      }
+      .flex{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+        
+      }
+      .flex img{
+        width: 35px;
+      }
+      .flex code{
+        font-size: 10px;
+      }
+      #text{
+        font-size: 0.9em;
+        color: rgb(195, 195, 195);
+      }
+    </style>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+  <header>
+    <div class="Icon">
+      <img src="https://code.visualstudio.com/favicon.ico" alt="">
+      <h4>Visual Studio Code</h4>
+    </div>
+    <div class="Nav">
+      <span>Docs</span>
+      <span>Updates</span>
+      <span>Blog</span>
+      <span>Api</span>
+      <span>Extensions</span>
+      <span>FAQ</span>
+      <span>Learn</span>
+    </div>
+    <div class="Search">
+      <input placeholder="Search Docs"></input>
+      <button>Download</button>
+    </div>
+  </header>
+<div class="Version">
+  <p id="Blue">Version 1.92 </p>
+<p> is now available! Read about the new features and fixes from July.</p>
+</div>
+<Main>
+  <div class="LeftSide">
+    <div class="Box">
+      Free. Built on open source.Runs anywhere.
+    </div>
+    <div class="title">
+      Code Editing <br>
+      Redefined.
+    </div>
+    <div>
+      <button>
+        Download for Macos
+      </button>
+    </div>
+  </div>
+  <div class="Right-side">
+    <img src="https://code.visualstudio.com/assets/home/home-screenshot-mac-2x-v2.png">
+  </div>
+</Main>
+
+
+  <footer>
+    <div class="Area">
+      <div class="Left">
+        <div>
+          <h2>Code in any language</h2>
+        </div>
+        <div>
+          <div id="text">
+            VS Code supports almost every major programming language. Several
+            ship in the box, like JavaScript, TypeScript, CSS, and HTML, but
+            extensions for others can be found in the VS Code Marketplace.
+          </div>
+        </div>
+      </div>
+      <div class="languagePanel">
+            <div class="flex">
+                <img src="https://code.visualstudio.com/assets/home/language-js.png" alt="Javascript">
+                <code class="verticalCenter">JavaScript</code>
+            </div>
+            <div class="flex">
+                <img src="https://code.visualstudio.com/assets/home/language-ts.png" alt="TypeScript">
+                <code class="verticalCenter">TypeScript</code>
+            </div>
+            <div class="flex">
+                <img src="https://code.visualstudio.com/assets/home/language-python.png" alt="Python">
+                <code class="verticalCenter">Python</code>
+            </div>
+            <div class="flex">
+                <img src="https://code.visualstudio.com/assets/home/language-cs.png" alt="C#">
+                <code class="verticalCenter">C#</code>
+            </div>
+            <div class="flex">
+                <img src="https://code.visualstudio.com/assets/home/language-cpp.png" alt="C++">
+                <code class="verticalCenter">C++</code>
+            </div>
+            <div class="flex">
+                <img src="https://code.visualstudio.com/assets/home/language-html.png" alt="HTML">
+                <code class="verticalCenter">HTML</code>
+            </div>
+            <div class="flex">
+                <img src="https://code.visualstudio.com/assets/home/language-java.png" alt="Java">
+                <code class="verticalCenter">Java</code>
+            </div>
+            <div class="flex"> 
+                <img src="https://code.visualstudio.com/assets/home/language-json.png" alt="JSON">
+                <code class="verticalCenter">JSON</code>
+            </div>
+            <div class="flex">
+                <img src="https://code.visualstudio.com/assets/home/language-php.png" alt="PHP">
+                <code class="verticalCenter">PHP</code>
+            </div>
+            <div class="flex">
+                <img src="https://code.visualstudio.com/assets/home/language-markdown.png" alt="Markdown">
+                <code class="verticalCenter">Markdown</code>
+            </div>
+            <div class="flex">
+                <img src="https://code.visualstudio.com/assets/home/language-powershell.png" alt="Powershell">
+                <code class="verticalCenter">Powershell</code>
+            </div>
+            <div class="flex">
+                <img src="https://code.visualstudio.com/assets/home/language-yaml.png" alt="YAML">
+                <code class="verticalCenter">YAML</code>
+            </div>
+    </div>
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz</title>
+    <style>
+      body {
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        background-color: #dedede;
+        font-family: sans-serif;
+      }
+
+      .Quiz-Box {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        width: 500px;
+        height: 300px;
+        background-color: rgb(234, 234, 234);
+        color: rgb(46, 46, 46);
+        font-size: 20px;
+        border-radius: 20px;
+        padding-top: 20px;
+        box-sizing: border-box;
+      }
+
+      .Quiz-Box button {
+        all: unset;
+        width: 100%;
+        cursor: pointer;
+        padding: 10px 0;
+        background-color: #3d244a;
+        border-radius: 0 0 20px 20px;
+        color: rgb(248, 248, 248);
+        text-align: center;
+      }
+
+      .initial {
+        font-weight: 600;
+        font-size: 24px;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="Quiz-Box">
+      <div class="initial">Hello, click below to start quiz</div>
+      <button onclick="loadQuestion(0)">Start</button>
+    </div>
+
+    <script type="module">
+      import { quizData } from "./data.js";
+
+      let ctr = 0;
+      let score = 0;
+
+      window.loadQuestion = function (index) {
+        const box = document.querySelector(".Quiz-Box");
+        box.innerHTML = "";
+        const q = quizData[index];
+
+        const questionEl = document.createElement("div");
+        questionEl.innerHTML = q.question;
+
+        const optionsEl = document.createElement("div");
+        optionsEl.innerHTML = `
+          <label><input type="radio" name="option" value="a"> ${q.a}</label><br>
+          <label><input type="radio" name="option" value="b"> ${q.b}</label><br>
+          <label><input type="radio" name="option" value="c"> ${q.c}</label><br>
+          <label><input type="radio" name="option" value="d"> ${q.d}</label><br>
+        `;
+
+        const submitBtn = document.createElement("button");
+        submitBtn.innerText = "Submit";
+
+        box.appendChild(questionEl);
+        box.appendChild(optionsEl);
+        box.appendChild(submitBtn);
+
+        submitBtn.onclick = function () {
+          const selected = document.querySelector(
+            'input[name="option"]:checked'
+          );
+          if (!selected) {
+            alert("Select an option first!");
+            return;
+          }
+          if (selected.value === q.correct) {
+            score++;
+          }
+
+          if (ctr < quizData.length - 1) {
+            ctr++;
+            loadQuestion(ctr);
+          } else {
+            box.innerHTML = "";
+            const title = document.createElement("div");
+            title.innerText = "Thank you for completing the quiz!";
+            const scoreCard = document.createElement("div");
+            scoreCard.innerText = `Your score is ${score}/${quizData.length}`;
+            const reloadButton = document.createElement("button");
+            reloadButton.innerText = "Reload";
+            reloadButton.onclick = () => {
+              ctr = 0;
+              score = 0;
+              loadQuestion(ctr);
+            };
+            box.appendChild(title);
+            box.appendChild(scoreCard);
+            box.appendChild(reloadButton);
+          }
+        };
+      };
+    </script>
+  </body>
+</html>

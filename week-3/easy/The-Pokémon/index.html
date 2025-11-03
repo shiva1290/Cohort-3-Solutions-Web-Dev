@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokedex</title>
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 30px;
+        color: #333;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+        color: #2d2d2d;
+      }
+
+      #inputBox {
+        all: unset;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-size: 16px;
+        margin-right: 10px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+      }
+      #typeSelect {
+        all: unset;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-size: 16px;
+        margin-right: 10px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+      }
+      #submitBtn {
+        padding: 10px 18px;
+        background-color: rgba(212, 212, 212, 0.115);
+        border: solid rgb(89, 89, 89) 2px;
+        color: white;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        color: #2d2d2d;
+        transition: background 0.3s ease, transform 0.2s ease;
+      }
+
+      #container {
+        margin-top: 40px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+        width: 90%;
+        max-width: 1000px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        padding: 20px;
+      }
+
+      .card img {
+        width: 200px;
+        height: 200px;
+        object-fit: contain;
+        border-radius: 10px;
+      }
+
+      .card #name {
+        font-size: 28px;
+        font-weight: 600;
+        margin-top: 10px;
+        color: #ff5757;
+      }
+
+      .card #pokeid {
+        font-size: 16px;
+        color: #777;
+        margin-bottom: 8px;
+      }
+
+      .card #type {
+        background-color: #ffefef;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: 500;
+        color: #555;
+        display: inline-block;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Welcome to the Pokédex</h1>
+    <div>
+      <input
+        id="inputBox"
+        type="number"
+        placeholder="Enter number of Pokémon"
+      />
+      <select id="typeSelect">
+        <option value="fire">Fire</option>
+        <option value="water">Water</option>
+        <option value="grass">Grass</option>
+        <option value="electric">Electric</option>
+        <option value="psychic">Psychic</option>
+        <option value="fighting">Fighting</option>
+        <option value="normal">Normal</option>
+      </select>
+      <button id="submitBtn" onclick="fetchPokemon()">Fetch</button>
+    </div>
+    <div id="container"></div>
+
+    <script>
+      const typeColors = {
+        fire: "#FF6B6B",
+        water: "#4D96FF",
+        grass: "#81C784",
+        electric: "#FFD93D",
+        psychic: "#E07CFF",
+        fighting: "#FF8C42",
+        normal: "#A0A0A0",
+      };
+
+      async function fetchPokemon() {
+        const input = document.querySelector("#inputBox");
+        const num = input.value.trim().toLowerCase();
+        const type = document
+          .querySelector("#typeSelect")
+          .value.trim()
+          .toLowerCase();
+        document.body.style.backgroundColor = typeColors[type] || "#ffffff";
+        try {
+          document.querySelector("#container").innerHTML = "";
+          const res = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
+          if (!res.ok) throw new Error("Pokémon not found");
+
+          const data = await res.json();
+          const pokemonList = data.pokemon;
+
+          for (let i = 0; i < num; i++) {
+            const pokeUrl = pokemonList[i].pokemon.url;
+            const pokeData = await fetch(pokeUrl).then((res) => res.json());
+            const pokemon = {
+              name: pokeData.name,
+              id: pokeData.id,
+              image: pokeData.sprites.other["official-artwork"].front_default,
+              types: pokeData.types.map((t) => t.type.name),
+            };
+            createCard(pokemon);
+          }
+        } catch (err) {
+          console.error("Error fetching Pokémon:", err.message);
+        }
+      }
+
+      function createCard(p) {
+        const name = document.createElement("div");
+        const id = document.createElement("div");
+        const img = document.createElement("img");
+        const type = document.createElement("div");
+
+        name.id = "name";
+        id.id = "pokeid";
+        type.id = "type";
+
+        name.textContent = p.name;
+        id.textContent = `#${p.id}`;
+        img.src = p.image;
+        type.textContent = "Type: " + p.types.join(", ");
+
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.append(img, name, id, type);
+
+        document.querySelector("#container").appendChild(card);
+      }
+    </script>
+  </body>
+</html>

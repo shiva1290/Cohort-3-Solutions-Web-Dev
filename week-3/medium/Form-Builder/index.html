@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form builder</title>
+  </head>
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .section {
+      display: flex;
+      justify-content: space-around;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .FormBox,
+    .FormInput {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      border: 1px solid #e0e0e0;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      width: 45%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .FormInput {
+      gap: 8px;
+    }
+
+    .FormInput button {
+      border: none;
+      background-color: #0255b3;
+      color: white;
+      border-radius: 6px;
+      font-weight: 600;
+      margin-top: 12px;
+      padding: 10px 0;
+      font-size: 15px;
+      transition: background-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #1e1e1e;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    input,
+    select {
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #006be6;
+      box-shadow: 0 0 5px rgba(0, 107, 230, 0.3);
+    }
+  </style>
+  <body>
+    <div class="section">
+      <div class="FormInput">
+        <h3>Form Builder</h3>
+        <label for="options">Choose an option:</label>
+        <select id="options">
+          <option value="text">Text</option>
+          <option value="inp">Text Input</option>
+          <option value="chec">CheckBox</option>
+          <option value="rad">Radio Buttons</option>
+        </select>
+        <h3>Field label</h3>
+        <input id="labelField" placeholder="Enter field label" />
+        <button id="add" onclick="addField()">Add field</button>
+      </div>
+      <div class="FormBox">
+        <h3>Form Preview</h3>
+      </div>
+    </div>
+  </body>
+  <script>
+    function addField() {
+      const form = document.querySelector(".FormBox");
+      const option = document.querySelector("#options").value;
+      const label = document.querySelector("#labelField").value;
+      if (option == "inp") {
+        createEle(label, "text");
+      }
+      if (option == "chec") {
+        createEle(label, "checkbox");
+      }
+      if (option == "rad") {
+        createEle(label, "radio");
+      }
+      if (option == "text") {
+        createText(label);
+      }
+    }
+    function createEle(label, typeElement) {
+      let ele = document.createElement("input");
+      const lab = document.createElement("label");
+      const id = label.toLowerCase().replace(/\s+/g, "_"); // e.g. "Full Name" -> "full_name"
+      lab.htmlFor = id;
+      lab.textContent = label;
+      ele.id = id;
+      ele.type = typeElement;
+      if (typeElement == "radio") {
+        ele.name = "radioGroup";
+      }
+      ele.placeholder = "Enter value here";
+      const wrapper = document.createElement("div");
+      wrapper.style.marginBottom = "10px";
+      wrapper.style.gap = "10px";
+      wrapper.style.display = "flex";
+      wrapper.style.alignItems = "center";
+      wrapper.style.gap = "8px";
+      wrapper.appendChild(lab);
+      wrapper.appendChild(ele);
+      document.querySelector(".FormBox").appendChild(wrapper);
+      document.querySelector("#labelField").value = "";
+    }
+    function createText(label) {
+      const text = document.createElement("h4");
+      text.innerHTML = label;
+      text.style.color = "black";
+      document.querySelector(".FormBox").appendChild(text);
+    }
+  </script>
+</html>
+
+<!-- Refined css with gpt  -->

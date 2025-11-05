@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo Columns (No LocalStorage)</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #fafafa;
+      }
+
+      .section {
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start;
+        gap: 2px;
+        margin-top: 20px;
+      }
+
+      .todo,
+      .progress,
+      .review,
+      .finished {
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 6px;
+        width: 25%;
+        background: white;
+      }
+
+      .todo-item {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .tasks {
+        margin-top: 10px;
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+        min-height: 50px;
+      }
+
+      .tasks.dragover {
+        background: #d4d4d4;
+      }
+
+      .task {
+        background: #f5f5f5;
+        padding: 8px;
+        border-radius: 6px;
+        margin-top: 8px;
+        cursor: grab;
+      }
+
+      .low {
+        background-color: #5cc248;
+        border-radius: 3px;
+        padding: 2px;
+        color: white;
+      }
+      .medium {
+        background-color: #c2b448;
+        border-radius: 3px;
+        padding: 2px;
+        color: white;
+      }
+      .high {
+        background-color: #c24848;
+        border-radius: 3px;
+        padding: 2px;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="section">
+      <div class="todo">
+        <h4>To Do</h4>
+        <button class="addBtn" data-column="todo">Add new</button>
+        <div class="tasks"></div>
+      </div>
+
+      <div class="progress">
+        <h4>In Progress</h4>
+        <button class="addBtn" data-column="progress">Add new</button>
+        <div class="tasks"></div>
+      </div>
+
+      <div class="review">
+        <h4>Under Review</h4>
+        <button class="addBtn" data-column="review">Add new</button>
+        <div class="tasks"></div>
+      </div>
+
+      <div class="finished">
+        <h4>Finished</h4>
+        <button class="addBtn" data-column="finished">Add new</button>
+        <div class="tasks"></div>
+      </div>
+    </div>
+
+    <script>
+      // Add form when clicking "Add new"
+      document.querySelectorAll(".addBtn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const column = btn.dataset.column;
+          addblock(column);
+        });
+      });
+
+      function addblock(classParent) {
+        const box = document.querySelector("." + classParent);
+        const tasksContainer = box.querySelector(".tasks");
+
+        // Create form dynamically
+        const todoForm = document.createElement("form");
+        todoForm.classList.add("todo-item");
+        todoForm.innerHTML = `
+          <input type="text" name="name" placeholder="Todo name" required>
+          <input type="text" name="description" placeholder="Description">
+          <select name="priority" required>
+            <option value="">Select priority</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+          <input type="date" name="deadline" required>
+          <button type="button" class="saveTodo">Save</button>
+        `;
+
+        box.insertBefore(todoForm, tasksContainer);
+        //To insert in a particulat place in a container before something
+
+        const saveBtn = todoForm.querySelector(".saveTodo");
+        saveBtn.addEventListener("click", () => {
+          const name = todoForm.querySelector('[name="name"]').value.trim();
+          const description = todoForm
+            .querySelector('[name="description"]')
+            .value.trim();
+          const priority = todoForm.querySelector('[name="priority"]').value;
+          const deadline = todoForm.querySelector('[name="deadline"]').value;
+
+          if (!name || !priority || !deadline) {
+            alert("Please fill all required fields!");
+            return;
+          }
+
+          const todoObj = {
+            name,
+            description,
+            priority,
+            deadline,
+            column: classParent,
+          };
+          renderTodo(todoObj);
+          todoForm.remove();
+        });
+      }
+
+      // Render todo item
+      function renderTodo(todoObj) {
+        const tasksContainer = document.querySelector(
+          `.${todoObj.column} .tasks`
+        );
+        const newTodo = document.createElement("div");
+        //To apply the class from our css to this
+        newTodo.classList.add("task");
+
+        newTodo.setAttribute("draggable", true);
+
+        //strong and small are semantic
+        newTodo.innerHTML = `
+          <strong>${todoObj.name}</strong><br>
+          <small>${todoObj.description || "No description"}</small><br>
+          <small class="${todoObj.priority}">Priority: ${
+          todoObj.priority
+        }</small><br>
+          <small>Deadline: ${todoObj.deadline}</small>
+        `;
+
+        // Enable dragging
+        newTodo.addEventListener("dragstart", () => {
+          newTodo.classList.add("dragging");
+        });
+
+        newTodo.addEventListener("dragend", () => {
+          newTodo.classList.remove("dragging");
+        });
+
+        tasksContainer.appendChild(newTodo);
+      }
+
+      // Drag and drop logic
+      const containers = document.querySelectorAll(".tasks");
+
+      containers.forEach((container) => {
+        container.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          container.classList.add("dragover");
+        });
+
+        container.addEventListener("dragleave", () => {
+          container.classList.remove("dragover");
+        });
+
+        container.addEventListener("drop", (e) => {
+          e.preventDefault();
+          container.classList.remove("dragover");
+
+          const draggedElement = document.querySelector(".dragging");
+          if (!draggedElement) return;
+            //appendChild() both removes it from previous parent and add to new one
+          container.appendChild(draggedElement);
+        });
+      });
+    </script>
+  </body>
+</html>
